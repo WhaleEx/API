@@ -1,5 +1,4 @@
 const { HOST, ExAccount, userEosAccount } = require("../config.json");
-var qrcode = require("qrcode-terminal-alpha");
 function needUserInfo() {
   console.log(
     "> Please perfect personal information in config.json：【 user, location, userEosAccount 】"
