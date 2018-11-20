@@ -1,25 +1,31 @@
 const ecc = require("eosjs-ecc");
-const { APIKey } = require("./ApiKey.json");
 const crypto = require("crypto");
 const hash = crypto.createHash("sha256");
+const fs = require("fs-extra");
 const Long = require("long");
 const math = require("mathjs");
 math.config({ number: "BigNumber" });
-const keys = require("./keys.json");
-const { privateKey, publicKey: pk } = keys;
 const { HOST, ExEosAccount } = require("./config.json");
-const DEFAULT = params => ({
-  ...params,
-  timestamp: new Date().getTime(),
-  APIKey,
-  pk
-});
+const DEFAULT = params => {
+  const keys = getKeys();
+  const { privateKey, publicKey: pk, APIKey } = keys;
+  return {
+    timestamp: new Date().getTime(),
+    APIKey,
+    pk,
+    ...params
+  };
+};
 const HANDLER = {
   "/api/v1/order/orders": DEFAULT,
-  "/api/auth/pk/status": params => ({
-    ...params,
-    pk
-  }),
+  "/api/auth/pk/status": params => {
+    const keys = getKeys();
+    const { publicKey: pk } = keys;
+    return {
+      pk,
+      ...params
+    };
+  },
   "/api/v1/order/matchresults": DEFAULT,
   DEFAULT
 };
@@ -74,12 +80,17 @@ function multiply(m, n, decimal, ceil) {
   }
   return String(result).split(".")[0];
 }
+function getKeys() {
+  const keys = fs.readFileSync("ApiKey.json", "utf8") || "{}";
+  const keysObj = JSON.parse(keys);
+  return keysObj;
+}
 function signOrder(orderId, post, timestamp, account, symbolObj) {
   const {
     baseCurrency = "IQ",
     quoteCurrency = "EOS",
-    baseDecimal = 3,
-    quoteDecimal = 4,
+    basePrecision = 3,
+    quotePrecision = 4,
     baseContract,
     quoteContract
   } = symbolObj;
@@ -95,26 +106,26 @@ function signOrder(orderId, post, timestamp, account, symbolObj) {
       .updateStr(quoteContract)
       .updateStr(quoteCurrency)
       .updateInt64(
-        multiply(post.price, post.amount, quoteDecimal /*EOS链上精度*/, true)
+        multiply(post.price, post.amount, quotePrecision /*EOS链上精度*/, true)
       )
       .updateStr(baseContract)
       .updateStr(baseCurrency)
-      .updateInt64(multiply(1, post.amount, baseDecimal /*IQ链上精度*/));
+      .updateInt64(multiply(1, post.amount, basePrecision /*IQ链上精度*/));
   }
   if (post.type == "sell-limit") {
     pack
       .updateStr(baseContract)
       .updateStr(baseCurrency)
-      .updateInt64(multiply(1, post.amount, baseDecimal))
+      .updateInt64(multiply(1, post.amount, basePrecision))
       .updateStr(quoteContract)
       .updateStr(quoteCurrency)
-      .updateInt64(multiply(post.price, post.amount, quoteDecimal));
+      .updateInt64(multiply(post.price, post.amount, quotePrecision));
   }
   if (post.type == "buy-market") {
     pack
       .updateStr(quoteContract)
       .updateStr(quoteCurrency)
-      .updateInt64(multiply(1, post.amount, quoteDecimal))
+      .updateInt64(multiply(1, post.amount, quotePrecision))
       .updateStr(baseContract)
       .updateStr(baseCurrency)
       .updateInt64("0");
@@ -123,7 +134,7 @@ function signOrder(orderId, post, timestamp, account, symbolObj) {
     pack
       .updateStr(baseContract)
       .updateStr(baseCurrency)
-      .updateInt64(multiply(1, post.amount, baseDecimal))
+      .updateInt64(multiply(1, post.amount, basePrecision))
       .updateStr(quoteContract)
       .updateStr(quoteCurrency)
       .updateInt64("0");
@@ -135,6 +146,7 @@ function signOrder(orderId, post, timestamp, account, symbolObj) {
     .update(buf)
     .digest("hex");
   var pack1 = new Packer();
+  let { privateKey } = getKeys();
   var sig = ecc.signHash(hashData, privateKey);
   return sig;
 }
@@ -152,6 +164,7 @@ function sort(map) {
   return params;
 }
 function signData(method, path, params = {}) {
+  let { privateKey } = getKeys();
   // console.log("signData", method, path, params);
   let map = getHandle(path)(params);
   var params = sort(map);
@@ -163,6 +176,7 @@ function signData(method, path, params = {}) {
   return params;
 }
 function signDataOrder(orderId, order, account, symbolObj = {}) {
+  let { APIKey, publicKey: pk } = getKeys();
   var map = {
     APIKey,
     timestamp: new Date().getTime(),
@@ -178,5 +192,6 @@ module.exports = {
   signData,
   signOrder,
   sort,
-  signDataOrder
+  signDataOrder,
+  getKeys
 };

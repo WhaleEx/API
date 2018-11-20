@@ -1,0 +1,10 @@
+{
+  "user": "your WhaleEx UserName",
+  "location": "CN (you can find in util/country.json)",
+  "userEosAccount": "",
+  "HOST": "api.whaleex.com",
+  "ExEosAccount": "whaleexchang",
+  "ExAccount": "whaleextrust",
+  "EOScontract": "eosio.token",
+  "IQcontract": "everipediaiq"
+}
