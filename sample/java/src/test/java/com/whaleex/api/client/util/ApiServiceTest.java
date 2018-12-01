@@ -19,7 +19,7 @@ public class ApiServiceTest {
     // 登录获取access token
     @Test
     public void testLogin() throws IOException {
-        final String cn = apiService.getUserToken("15838261714", "qweqwe123", "CN");
+        final String cn = apiService.getUserToken("", "", "");
         System.out.println(cn);
 
     }
@@ -34,14 +34,14 @@ public class ApiServiceTest {
     // 向服务器注册公钥
     @Test
     public void testRegisterPk() throws IOException {
-        String token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJDTjo6MTU4MzgyNjE3MTQiLCJncm91cElkIjoxLCJpc0FkbWluIjpmYWxzZSwiYnlQYXNzd29yZCI6dHJ1ZSwiaGFzUGFzc3dvcmQiOnRydWUsInR5cGUiOiJsb2dpbiIsImNsaWVudF9pZCI6ImNsaWVudCIsImF1ZCI6WyJvYXV0aDItcmVzb3VyY2UiXSwicGhvbmUiOiIxNTgzODI2MTcxNCIsImNvdW50cnlDb2RlIjoiQ04iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjIxLCJleHAiOjE1NDM1MTM1OTQsImp0aSI6IjhhNzhjYTczLWZhNTYtNDMzYi1hYjdjLWZkMTE0MGM5MDhlMCJ9.dJvS2-vHr-ewr9kanrxthUGmHE9TC49QWDK8WrNJvj5BJ11jAuIwk6VJ02kf4XQBYYTRkvrr8unmHg05F9U_IYKX9iRxn154F61nnS7RqmaH-GSYvrK3-L0Lz1aDnHJgGZVCCBQ8wSSNmEyE_1CcI_bBJI9e_GOQ9yXXPIE7ZJoJ-AqbcVvG_C3bvxIXGVm4Y5wRkC_nxplK0YDWg4dURydOhpMS2CJLY9jsETFibhqxZO9APT7m3QopCt8oTeZl-osCzEaFmBdc6xQO4poxY7GUxz1yjCqpl4pmF12s8ar0_eM9RRcjofcoO-1QtOQCZiPQ5NvuwimOaeuvDcgdMQ";
+        String token="";
         apiService.registerPK(token,StoreUtils.getStorePublicKey());
     }
 
     // 检查公钥绑定状态
     @Test
     public void testChectPk() throws IOException {
-        String token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJDTjo6MTU4MzgyNjE3MTQiLCJncm91cElkIjoxLCJpc0FkbWluIjpmYWxzZSwiYnlQYXNzd29yZCI6dHJ1ZSwiaGFzUGFzc3dvcmQiOnRydWUsInR5cGUiOiJsb2dpbiIsImNsaWVudF9pZCI6ImNsaWVudCIsImF1ZCI6WyJvYXV0aDItcmVzb3VyY2UiXSwicGhvbmUiOiIxNTgzODI2MTcxNCIsImNvdW50cnlDb2RlIjoiQ04iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjIxLCJleHAiOjE1NDM1MDE0MTcsImp0aSI6IjA1YzIzMDY5LTQ0NGEtNDU2MS1hOWJmLTBlMTBmYTI2MWVlNCJ9.nU9cm0zjTi3NmnMZ7FkpnNuOxw82V5ObPNfQERV7j2Qpz0ymqgViip7n-LlSZ2XmEYb5RxLbAtacloAGopyKaPj-sw8BP0tQ3VhN80vZPmJFSulwgKmwxcGZxuQDiJzjU1qRyA8ziUARdf7j6yu08v8VnJ7Iw9bDuWGUj184rfb9owg1ILMT6nQu20lyeQm2RpEYwsYcbTdVbe6XKM1sGpECx4qDA9S-LzR1IK5PutqVL_9p9JMSjGvgoQg74V2wri2gMF7iLQQcNYk592enYcza85IzyboygrVHxbqc9LUqMu3aoIoj8hcurByMTxyo33bnQLeZa9suknd3ToP2hQ";
+        String token="";
         CommonResponse<PublicKeyResponse> response = apiService.checkPkBindStatus(token, StoreUtils.getStorePublicKey());
         System.out.println(response.getResult());
     }
@@ -49,7 +49,7 @@ public class ApiServiceTest {
     // 生成API key
     @Test
     public void testGenAPIKey() throws IOException {
-        String token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJDTjo6MTU4MzgyNjE3MTQiLCJncm91cElkIjoxLCJpc0FkbWluIjpmYWxzZSwiYnlQYXNzd29yZCI6dHJ1ZSwiaGFzUGFzc3dvcmQiOnRydWUsInR5cGUiOiJsb2dpbiIsImNsaWVudF9pZCI6ImNsaWVudCIsImF1ZCI6WyJvYXV0aDItcmVzb3VyY2UiXSwicGhvbmUiOiIxNTgzODI2MTcxNCIsImNvdW50cnlDb2RlIjoiQ04iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjIxLCJleHAiOjE1NDM1MDE0MTcsImp0aSI6IjA1YzIzMDY5LTQ0NGEtNDU2MS1hOWJmLTBlMTBmYTI2MWVlNCJ9.nU9cm0zjTi3NmnMZ7FkpnNuOxw82V5ObPNfQERV7j2Qpz0ymqgViip7n-LlSZ2XmEYb5RxLbAtacloAGopyKaPj-sw8BP0tQ3VhN80vZPmJFSulwgKmwxcGZxuQDiJzjU1qRyA8ziUARdf7j6yu08v8VnJ7Iw9bDuWGUj184rfb9owg1ILMT6nQu20lyeQm2RpEYwsYcbTdVbe6XKM1sGpECx4qDA9S-LzR1IK5PutqVL_9p9JMSjGvgoQg74V2wri2gMF7iLQQcNYk592enYcza85IzyboygrVHxbqc9LUqMu3aoIoj8hcurByMTxyo33bnQLeZa9suknd3ToP2hQ";
+        String token="";
         String apiKey = apiService.generateApiKey(token).getResult().toString();
         StoreUtils.storeAPIKey(apiKey);
     }
