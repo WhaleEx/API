@@ -170,17 +170,19 @@ function consoleOrders(orderList) {
   console.table(orders);
 }
 function consoleOrderDetail(orderList) {
-  const { orderId } = orderList[0];
-  console.log(`Open Order Detail：${orderId}`);
-  showTable("orderId", orderList, [
-    "symbolId",
-    "price",
-    "origQty",
-    "execQty",
-    "type",
-    "side",
-    "status"
-  ]);
+  if (orderList.length > 0) {
+    const { orderId } = orderList[0];
+    console.log(`Open Order Detail：${orderId}`);
+    showTable("orderId", orderList, [
+      "symbolId",
+      "price",
+      "origQty",
+      "execQty",
+      "type",
+      "side",
+      "status"
+    ]);
+  }
 }
 function consoleExecOrders(list, symbol) {
   console.log(symbol.name + "Transaction List：");
