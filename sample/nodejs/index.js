@@ -90,8 +90,8 @@ createSymbolObj = (symbol, currencyList) => {
   return {
     baseCurrency,
     quoteCurrency,
-    basePrecision,
-    quotePrecision,
+    basePrecision: B.decimals,
+    quotePrecision: Q.decimals,
     baseContract: B.contract,
     quoteContract: Q.contract
   };
