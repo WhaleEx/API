@@ -170,7 +170,7 @@ function consoleOrders(orderList) {
   console.table(orders);
 }
 function consoleOrderDetail(orderList) {
-  if (orderList.length > 0) {
+  if (orderList.length > 0 && orderList[0]) {
     const { orderId } = orderList[0];
     console.log(`Open Order Detail：${orderId}`);
     showTable("orderId", orderList, [

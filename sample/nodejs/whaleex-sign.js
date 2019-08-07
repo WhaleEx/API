@@ -168,7 +168,7 @@ function signData(method, path, params = {}) {
   // console.log("signData", method, path, params);
   let map = getHandle(path)(params);
   var params = sort(map);
-  var data = `${method.toUpperCase()}\n${HOST}\n${path}\n${encodeURIComponent(
+  var data = `${method.toUpperCase()}\napi.whaleex.com\n${path}\n${encodeURIComponent(
     params
   )}`;
   var sig = ecc.sign(data, privateKey);
