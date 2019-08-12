@@ -93,7 +93,9 @@ createSymbolObj = (symbol, currencyList) => {
     basePrecision: B.decimals,
     quotePrecision: Q.decimals,
     baseContract: B.contract,
-    quoteContract: Q.contract
+    quoteContract: Q.contract,
+    baseToken: B.token,
+    quoteToken: Q.token
   };
 };
 createOrder = (amount, price, symbol, type) => {

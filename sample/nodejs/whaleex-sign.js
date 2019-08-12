@@ -87,8 +87,8 @@ function getKeys() {
 }
 function signOrder(orderId, post, timestamp, account, symbolObj) {
   const {
-    baseCurrency = "IQ",
-    quoteCurrency = "EOS",
+    baseToken = "IQ",
+    quoteToken = "EOS",
     basePrecision = 3,
     quotePrecision = 4,
     baseContract,
@@ -104,39 +104,39 @@ function signOrder(orderId, post, timestamp, account, symbolObj) {
   if (post.type == "buy-limit") {
     pack
       .updateStr(quoteContract)
-      .updateStr(quoteCurrency)
+      .updateStr(quoteToken)
       .updateInt64(
         multiply(post.price, post.amount, quotePrecision /*EOS链上精度*/, true)
       )
       .updateStr(baseContract)
-      .updateStr(baseCurrency)
+      .updateStr(baseToken)
       .updateInt64(multiply(1, post.amount, basePrecision /*IQ链上精度*/));
   }
   if (post.type == "sell-limit") {
     pack
       .updateStr(baseContract)
-      .updateStr(baseCurrency)
+      .updateStr(baseToken)
       .updateInt64(multiply(1, post.amount, basePrecision))
       .updateStr(quoteContract)
-      .updateStr(quoteCurrency)
+      .updateStr(quoteToken)
       .updateInt64(multiply(post.price, post.amount, quotePrecision));
   }
   if (post.type == "buy-market") {
     pack
       .updateStr(quoteContract)
-      .updateStr(quoteCurrency)
+      .updateStr(quoteToken)
       .updateInt64(multiply(1, post.amount, quotePrecision))
       .updateStr(baseContract)
-      .updateStr(baseCurrency)
+      .updateStr(baseToken)
       .updateInt64("0");
   }
   if (post.type == "sell-market") {
     pack
       .updateStr(baseContract)
-      .updateStr(baseCurrency)
+      .updateStr(baseToken)
       .updateInt64(multiply(1, post.amount, basePrecision))
       .updateStr(quoteContract)
-      .updateStr(quoteCurrency)
+      .updateStr(quoteToken)
       .updateInt64("0");
   }
   pack.updateInt16(10).updateInt16(10);
