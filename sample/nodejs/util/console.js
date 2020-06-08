@@ -208,16 +208,16 @@ function consolePlaceOrder(orderList, orderResult, orderIdList) {
 }
 function consoleCancelOrder(r, orderId) {
   if (r.returnCode === "0") {
-    console.log(orderId + " Cacel withdrawal Success!");
+    console.log(orderId + " Cancel withdrawal Success!");
   } else {
-    console.log(orderId + " Cacel withdrawal Fail!" + r.message);
+    console.log(orderId + " Cancel withdrawal Fail!" + r.message);
   }
 }
 function consoleCancelBatch(r) {
   if (r.returnCode === "0") {
-    console.log(" Batch Cacel withdrawal Success!");
+    console.log(" Batch Cancel withdrawal Success!");
   } else {
-    console.log(" Batch Cacel withdrawal Fail!" + r.message);
+    console.log(" Batch Cancel withdrawal Fail!" + r.message);
   }
 }
 module.exports = {

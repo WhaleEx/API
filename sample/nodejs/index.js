@@ -165,7 +165,7 @@ runTrade = async function() {
   const cancelOrder = await WAL.cancelOrder(orderId);
   Print.consoleCancelOrder(cancelOrder, orderId);
   //step-13 批量撤单
-  const r = await WAL.cancelBatchBySymbol();
+  const r = await WAL.cancelBatchBySymbol(symbol.name);
   Print.consoleCancelBatch(r);
 };
 runTrade(); //交易简单流程

@@ -426,7 +426,8 @@ function cancelOrder(orderId) {
   var params = U.signData("POST", path);
   return axios({
     method: "post",
-    url: URL_prefix + path + "?" + params
+    url: URL_prefix + path + "?" + params,
+    data: {}
   })
     .then(function(response) {
       return response.data;
@@ -459,29 +460,10 @@ function cancelBatchBySymbol(symbol, side) {
   var params = U.signData("POST", path);
   return axios({
     method: "post",
-    url: URL_prefix + path + "?" + params,
-    data: {
-      symbol,
-      side
-    }
+    url: URL_prefix + path + "?" + params + "&symbol=" + symbol,
+    data: {}
   })
     .then(function(response) {
-      return response.data;
-    })
-    .catch(function(error) {
-      console.log(error.data);
-      return error;
-    });
-}
-function cancelOpen() {
-  var path = "/api/v1/order/orders/batchCancelOpenOrders";
-  var params = U.signData("POST", path);
-  return axios({
-    method: "post",
-    url: URL_prefix + path + "?" + params
-  })
-    .then(function(response) {
-      console.log(JSON.stringify(response.data));
       return response.data;
     })
     .catch(function(error) {
@@ -540,7 +522,6 @@ module.exports = {
   queryOrderDetail,
   queryOpenOrder,
   queryMatchResults,
-  cancelOpen,
   cancelBatch,
   getSymnbol,
   getCurrency,
